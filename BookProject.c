@@ -1,3 +1,4 @@
+
 #include<stdio.h>  
 #include<stdlib.h>
 #include<string.h>
@@ -12,7 +13,7 @@ typedef struct Book
 
 void storeInfo(Book*,int);
 void displayInfo(Book*,int);
-void increaseMemory(Book*,int);
+Book* increaseMemory(Book*,int);
 void noIndex(Book*,int);
 void displayBook1(Book*,int); 
 void hardCoaded(Book*);
@@ -31,13 +32,13 @@ void displayTopBook(Book*,int);
 void displayTopBookPrice(Book*,int);
 void displayTopBookRating(Book*,int);
 
-int size = 7;										//hard coaded size value given globally
-int ctr = 0;										//counter(ctr) declare globally having initial value 0
+int size = 3;										
+int ctr = 0;										
 
 void main()
 {
-	Book* bk = (Book*)malloc(sizeof(Book)*size);        //create array of name bk using malloc() having data base Book 
-	hardCoaded(bk);											//some hard coaded details entered
+	Book* bk = (Book*)malloc(sizeof(Book)*size);        
+	hardCoaded(bk);											
 	int ch;
 	do   
 	{
@@ -48,13 +49,37 @@ void main()
 		{
 			case 1:
 				{
-					(ctr<size)?storeInfo(bk,ctr):increaseMemory(bk,ctr);  		//calling 'storeInfo' fun to store data by user
+					if(ctr<size)
+					{
+						storeInfo(bk,ctr);
+					}
+					else
+					{
+						printf("\nYou can not enter book information\n");
+						char choice;
+						printf("\nDo you want to increase memory to insert details(y/n): ");
+						fflush(stdin);
+						scanf("%c",&choice);
+							if(choice == 'y' || choice == 'Y')
+							{
+								bk = increaseMemory(bk,ctr);
+								storeInfo(bk,ctr);
+							}						
+							else if(choice == 'n' || choice == 'N')
+							{
+								printf("\nok...You can not insert more players\n");
+							}
+							else
+							{
+								printf("\nEnter valid choice\n");
+							}						
+					}
 				}
 				break;
 				
 			case 2:
 				{
-					(ctr==0)?noIndex(bk,ctr):displayInfo(bk,ctr);				//calling 'displayInfo' fun to display data present in array
+					(ctr==0)?noIndex(bk,ctr):displayInfo(bk,ctr);				
 				}
 				break;
 				
@@ -62,7 +87,7 @@ void main()
 				{
 					if(ctr==0)
 					{
-						noIndex(bk,ctr);    										 //calling 'noindex' fun if ctr value is 0				
+						noIndex(bk,ctr);    										 				
 					}
 					else
 					{
@@ -89,9 +114,9 @@ void main()
 							fflush(stdin);
 							gets(name);
 								
-							int i = searchByBookName(bk,name);										//calling 'searchByName' to search player
+							int i = searchByBookName(bk,name);										
 							{
-								(i >= 0)?displayBook1(bk,i):printf("\nBook not found \n");		//calling 'displayPlayer1' fun to show only searched player data
+								(i >= 0)?displayBook1(bk,i):printf("\nBook not found \n");		
 							}
 						} 
 						
@@ -127,7 +152,7 @@ void main()
 				{
 					if(ctr==0)
 					{
-						noIndex(bk,ctr);    										//calling 'noindex' fun if ctr value is 0			
+						noIndex(bk,ctr);    													
 					}
 					else
 					{
@@ -166,7 +191,7 @@ void main()
 							{
 								if(i >= 0)
 								{
-									removeBook(bk,i);								//calling 'removePlayer' to remove player 
+									removeBook(bk,i);								 
 									printf("\nBook removed Successfully\n");				
 								}
 								else if(i==-1)
@@ -289,15 +314,15 @@ void storeInfo(Book* bk,int i)
 	else
 	{
 		printf("\nEnter Book Name: ");
-		fflush(stdin);																//to clear buffer
+		fflush(stdin);																
 		gets(bk[i].name);
 			
 		printf("\nEnter Author Name: ");
-		fflush(stdin);																//to clear buffer
+		fflush(stdin);																
 		gets(bk[i].authorName);
 				
 		printf("\nEnter the catrgory of book: ");
-		fflush(stdin);																//to clear buffer
+		fflush(stdin);																
 		gets(bk[i].category);
 			
 		printf("\nEnter the price of book: ");
@@ -325,30 +350,14 @@ void displayInfo(Book* bk,int ctr)
 	printf("\n+--------------------------------------------------------------------------------------------------------------------------------+");
 }
 
-void increaseMemory(Book* bk,int ctr)
+Book* increaseMemory(Book* bk,int ctr)
 {
-	printf("\nYou can not enter player information\n");
-	char choice;
-	printf("\nDo you want to increase memory to insert details(y/n): ");
-	fflush(stdin);
-	scanf("%c",&choice);
-	if(choice == 'y' || choice == 'Y')
-	{
-		int n;
-		printf("\nHow much memory you want to increase: ");
-		scanf("%d",&n);
-		size = size + n;
-		bk = (Book*)realloc(bk,(size)*sizeof(Book));                    //calling 'realloc' fun to increase the size of array
-		storeInfo(bk,ctr);													//calling 'storeinfo' fun to store info
-	}
-	else if(choice == 'n' || choice == 'N')
-	{
-		printf("\nok...You can not insert more players\n");
-	}
-	else
-	{
-		printf("\nEnter valid choice\n");
-	}
+	int n;
+	printf("\nHow much memory you want to increase: ");
+	scanf("%d",&n);
+	size = size + n;
+	bk = (Book*)realloc(bk,(size)*sizeof(Book));                    
+	return bk;
 }
 
 void noIndex(Book* bk,int ctr)									
@@ -469,7 +478,7 @@ void removeBook(Book* bk,int i)
 	{
 		bk[j] = bk[j+1];
 	}
-	ctr--;												//counter value decrased because one/searched index removed	
+	ctr--;													
 }
 
 void updateBook(Book* bk,int i)
@@ -509,19 +518,19 @@ void updateBook(Book* bk,int i)
 	}
 }
 
-void sortByPrice(Book* bk)								//fun to descending sort books by price
+void sortByPrice(Book* bk)								
 {
-	Book bkk[size];									//create new array to keep original array as it is
+	Book bkk[size];									
 	for(int i=0; i<ctr; i++)
 	{
-		bkk[i] = bk[i];									//assign original array value to duplicate array
+		bkk[i] = bk[i];									
 	}
 	
 	for(int i=0; i<ctr; i++)
 	{
 		for(int j=i+1; j<ctr; j++)
 		{
-			if(bkk[i].price  < bkk[j].price)					//sort duplicated array
+			if(bkk[i].price  < bkk[j].price)					
 			{
 				Book temp = bkk[i];
 				bkk[i] = bkk[j];
@@ -529,7 +538,7 @@ void sortByPrice(Book* bk)								//fun to descending sort books by price
 			}
 		}
 	}
-	displayInfo(bkk,ctr);										//display duplicated array
+	displayInfo(bkk,ctr);										
 }
 
 void sortByRating(Book* bk)
@@ -557,17 +566,17 @@ void sortByRating(Book* bk)
 
 void sortAscPrice(Book* bk)
 {
-	Book bkk[size];									//create new array to keep original array as it is
+	Book bkk[size];									
 	for(int i=0; i<ctr; i++)
 	{
-		bkk[i] = bk[i];									//assign original array value to duplicate array
+		bkk[i] = bk[i];									
 	}
 	
 	for(int i=0; i<ctr; i++)
 	{
 		for(int j=i+1; j<ctr; j++)
 		{
-			if(bkk[i].price  > bkk[j].price)					//sort duplicated array
+			if(bkk[i].price  > bkk[j].price)					
 			{
 				Book temp = bkk[i];
 				bkk[i] = bkk[j];
@@ -575,7 +584,7 @@ void sortAscPrice(Book* bk)
 			}
 		}
 	}
-	displayInfo(bkk,ctr);										//display duplicated array	
+	displayInfo(bkk,ctr);											
 }
 
 void sortAscRating(Book* bk)
@@ -633,17 +642,17 @@ void displayTopBook(Book* bk,int ctr)
 
 void displayTopBookPrice(Book* bk,int ctr)
 {
-	Book bkk[size];									//create new array to keep original array as it is
+	Book bkk[size];									
 	for(int i=0; i<ctr; i++)
 	{
-		bkk[i] = bk[i];									//assign original array value to duplicate array
+		bkk[i] = bk[i];									
 	}
 	
 	for(int i=0; i<ctr; i++)
 	{
 		for(int j=i+1; j<ctr; j++)
 		{
-			if(bkk[i].price  < bkk[j].price)					//sort duplicated array
+			if(bkk[i].price  < bkk[j].price)					
 			{
 				Book temp = bkk[i];
 				bkk[i] = bkk[j];
