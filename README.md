@@ -1,29 +1,18 @@
 # Book-Management-System
-Problem Statement:
-A Book Management System is required to efficiently organize and manage information about books. The system should support various operations, including adding, removing, searching, updating, and displaying book records based on attributes such as Book ID, Book Name, Author Name, Category, Price, and Rating. Additionally, the system should provide the capability to show details of books written by a specific author, display the top 3 books based on price and rating, and access information about all the books in the database.
+The Book Management System is a C program that allows users to manage a collection of books. Users can insert, display, search, update, and remove book records. The system also supports sorting books by price and rating and displays the top three books based on these criteria.
 
-Key Requirements:
+**Features**
+- Insert Book Information: Add new book records with details such as ID, name, author, category, price, and rating.
+- Display Book Information: Show all entered book records in a structured format.
+- Search Functionality: Search for books by ID, name, author, or category.
+- Remove Books: Delete book records based on ID or name.
+- Update Book Information: Modify the price or rating of existing books.
+- Sorting Options: Sort books in ascending or descending order by price or rating.
+- Top Books: Display the top three books based on price or rating.
 
-•
-Add Book: The system should allow users to add new books with their attributes, including Book ID, Book Name, Author Name, Price, and Rating.
+**Code Structure**
+- Data Structure: The program uses a struct Book to store book details.
+- Dynamic Memory Allocation: It uses dynamic memory allocation to handle a variable number of books.
 
-•
-Remove Book: Users should be able to remove books from the system, ensuring that associated data is deleted while preserving data integrity.
-
-•
-Search Book: The system should facilitate book retrieval by both Book ID and Book Name, enabling users to quickly access book details.
-
-•
-Show Author's Books: Users should be able to retrieve a list of books written by a specific author, helping readers explore an author's works.
-
-•
-Show Category's Books: Users should be able to retrieve a list of books of specified category, helping readers explore an author's works.
-
-•
-Update Book Data: Users must have the ability to update a book's Price and Rating, providing a means for keeping book information accurate and up-to-date.
-
-•
-Display Sorted Books: The system should provide a feature to display the sorted books based on price and rating, allowing users to see the highest/lowest- priced and highest/lowest- rated books in the collection.
-
-•
-Display All Books: The system should offer the option to display details of all the books in the database, enabling users to access the complete list of books.
+**Functionality**: 
+- The program is organized into functions for each operation, promoting modularity and readability.
